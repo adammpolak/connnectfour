@@ -2,6 +2,9 @@ $(document).ready(function() {
   //script here
   console.log("frank");
 
+//amount of moves
+var movesMade = 0;
+
 //stores whose turn it is currently
 var currentColor = "red"
 
@@ -19,7 +22,7 @@ var changeColor = function () {
   return currentColor;
 }
 
-//stores what y position is available for a column
+//stores what colors are stored in what coordinates
 var dataStore = {
   0: {0: "", 1: "", 2: "", 3: "", 4: "", 5: ""},
   1: {0: "", 1: "", 2: "", 3: "", 4: "", 5: ""},
@@ -30,6 +33,7 @@ var dataStore = {
   6: {0: "", 1: "", 2: "", 3: "", 4: "", 5: ""}
 }
 
+//stores what y position is available
 var yPositionAvailable = {
   0: 0,
   1: 0,
@@ -40,6 +44,7 @@ var yPositionAvailable = {
   6: 0
 }
 
+//highlights the winning tokens
 var highlightTokens = {
   left: function(xaxis, yaxis, amount) {
     var currentx = xaxis;
@@ -110,7 +115,7 @@ var highlightTokens = {
   }
 }
 
-//if someone wins
+//if someone wins this changes the appeareance
 var winner = function () {
   $('#center').html(currentColor.toUpperCase() + " WINS!");
   $('#red').hide();
@@ -118,6 +123,21 @@ var winner = function () {
   $('#center').css('margin', 'auto')
   $('#buttonrow').hide();
 }
+
+//if there is a stalemate this changes the appearance
+var staleMate = function() {
+$('#center').html("STALE MATE!");
+$('#red').hide();
+$('#black').hide();
+$('#center').css('margin', 'auto')
+$('#buttonrow').hide();
+};
+
+var checkStaleMate = function() {
+  if (movesMade === 42) {
+    staleMate();
+  }
+};
 
 //to reset the board
 var reset = function () {
@@ -146,7 +166,8 @@ var reset = function () {
     4: 0,
     5: 0,
     6: 0
-  }
+  };
+  movesMade = 0;
 }
 
 //this function checks for a match
@@ -228,24 +249,21 @@ yaxis = parseInt(yaxis);
   leftCheck(); rightCheck();downCheck();downleftCheck();downrightCheck();upleftCheck();uprightCheck();
   //
   if (left+right >= 3 || down >= 3 || upleft + downright >= 3 || downleft + upright >= 3) {
+    $('[x='+xaxis+'][y='+yaxis+']').addClass('highlighted')
     winner();
   };
   if (left+right >= 3) {
-    $('[x='+xaxis+'][y='+yaxis+']').addClass('highlighted')
     highlightTokens.left(xaxis,yaxis,left);
     highlightTokens.right(xaxis,yaxis,right);
   };
   if (down >= 3) {
-    $('[x='+xaxis+'][y='+yaxis+']').addClass('highlighted')
     highlightTokens.down(xaxis,yaxis,down);
   };
   if (upleft + downright >= 3) {
-    $('[x='+xaxis+'][y='+yaxis+']').addClass('highlighted')
     highlightTokens.upleft(xaxis,yaxis,upleft);
     highlightTokens.downright(xaxis,yaxis,downright);
   };
   if (downleft + upright >= 3) {
-    $('[x='+xaxis+'][y='+yaxis+']').addClass('highlighted')
     highlightTokens.downleft(xaxis,yaxis,downleft);
     highlightTokens.upright(xaxis,yaxis,upright);
   };
@@ -265,6 +283,9 @@ var colorSpace = function (xaxis, yaxis) {
 var columnHeight = function (column) {
   colorSpace(column, yPositionAvailable[column]);
   yPositionAvailable[column]++;
+  if (yPositionAvailable[column] === 6) {
+    $('#'+column).prop('disabled',true);
+  }
 }
 
 
@@ -272,12 +293,16 @@ var columnHeight = function (column) {
   //decides what y-axis should change color
   var droptoken = function () {
     columnHeight(this.id);
+    movesMade++;
+    checkStaleMate();
   }
 
   //setting up column buttons
   //setting up board spaces and column buttons
   var buttonrow = $('#buttonrow')
   var board = $('#board')
+
+  //this sets up the game board
   var setup = function() {
     for (var x = 0; x < 7; x++) {
       for (var y = 0; y < 6; y++) {
@@ -294,10 +319,10 @@ var columnHeight = function (column) {
       buttonrow.append(button);
     }
   }
-  setup();
   $('#reset').on('click', function() {
     reset();
   });
+  setup();
 });
 
 
