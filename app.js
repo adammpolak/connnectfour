@@ -2,8 +2,14 @@ $(document).ready(function() {
   //script here
   console.log("frank");
 
-//amount of moves
+
+var game =  {
+
+}
+
 var movesMade = 0;
+
+//amount of moves
 
 //stores whose turn it is currently
 var currentColor = "red"
@@ -121,6 +127,7 @@ var winner = function () {
   $('#red').hide();
   $('#black').hide();
   $('#center').css('margin', 'auto')
+  $('#center').css('margin-bottom', '46px')
   $('#buttonrow').hide();
 }
 
@@ -174,6 +181,7 @@ var reset = function () {
 var checkMatches = function (xaxis, yaxis) {
 xaxis = parseInt(xaxis);
 yaxis = parseInt(yaxis);
+console.log(dataStore);
 
 // the variables below store the amount of same color in a row in each direction for the most recently placed token
   var left = 0;
