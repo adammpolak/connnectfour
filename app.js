@@ -137,6 +137,7 @@ $('#center').html("STALE MATE!");
 $('#red').hide();
 $('#black').hide();
 $('#center').css('margin', 'auto')
+$('#center').css('margin-bottom', '46px')
 $('#buttonrow').hide();
 };
 
