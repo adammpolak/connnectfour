@@ -32,10 +32,12 @@ section {
 	height: 28px;
 	background-color: #d8d8d8;
 	border: solid 1px #979797;
+  border-radius: 5px;
 }
 
 #reset {
   margin: 0 auto;
+  display: block;
 }
 
 #board {
