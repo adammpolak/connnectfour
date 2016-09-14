@@ -12,22 +12,14 @@
   <body>
     <h1>Connect Four</h1>
     <section>
-      <h2>Red</h2>
-      <h2>Current Turn</h2>
-      <h2>Black</h2>
+      <h2 id='red'>Red</h2>
+      <h2 id='center'>Current Turn</h2>
+      <h2 id='black' class='currentturn'>Black</h2>
     </section>
 
-    <div id="buttonrow">
-      <button class="button" id="row 0">Drop Here</button>
-      <button class="button" id="row 1">Drop Here</button>
-      <button class="button" id="row 2">Drop Here</button>
-      <button class="button" id="row 3">Drop Here</button>
-      <button class="button" id="row 4">Drop Here</button>
-      <button class="button" id="row 5">Drop Here</button>
-      <button class="button" id="row 6">Drop Here</button>
-    </div>
-    <div id="board">
-
-    </div>
+    <div id="buttonrow"></div>
+    <div id="board"></div>
+    <br>
+    <button class="button" id='reset'>RESET</button>
   </body>
 </html>
