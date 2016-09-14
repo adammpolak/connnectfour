@@ -119,8 +119,9 @@ var winner = function () {
   $('#buttonrow').hide();
 }
 
+//to reset the board
 var reset = function () {
-  $('#center').html("Current Turn");
+  $('#center').html("");
   $('#red').show();
   $('#black').show();
   $('#center').css('margin', 'inherit')
@@ -128,6 +129,24 @@ var reset = function () {
   buttonrow.html("");
   board.html("");
   setup();
+  dataStore = {
+    0: {0: "", 1: "", 2: "", 3: "", 4: "", 5: ""},
+    1: {0: "", 1: "", 2: "", 3: "", 4: "", 5: ""},
+    2: {0: "", 1: "", 2: "", 3: "", 4: "", 5: ""},
+    3: {0: "", 1: "", 2: "", 3: "", 4: "", 5: ""},
+    4: {0: "", 1: "", 2: "", 3: "", 4: "", 5: ""},
+    5: {0: "", 1: "", 2: "", 3: "", 4: "", 5: ""},
+    6: {0: "", 1: "", 2: "", 3: "", 4: "", 5: ""}
+  };
+  yPositionAvailable = {
+    0: 0,
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0
+  }
 }
 
 //this function checks for a match
