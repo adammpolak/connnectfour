@@ -1,5 +1,4 @@
 $(document).ready(function() {
-  //script here
 
 // this object stores game data
 var game =  {
@@ -176,6 +175,15 @@ var UI = {
     $('#reset').on('click', function() {
     UI.reset();
     });
+  },
+  checkDisable: function(column) {
+    if (game.yPositionAvailable[column] > 5) {
+      $('#'+column).prop('disabled',true);
+    }
+  },
+  colorSpace: function (xaxis, yaxis) {
+    var selectedSpace = $('[x='+xaxis+'][y='+yaxis+']')
+    selectedSpace.css('background-color', game.currentColor);
   }
 }
 
@@ -279,30 +287,27 @@ var logic = {
     if (game.movesMade === 42) {
       UI.staleMate();
     }
-  },
-  columnHeight: function (column) {
-    brain.colorSpace(column, game.yPositionAvailable[column]);
-    game.yPositionAvailable[column]++;
-    if (game.yPositionAvailable[column] === 6) {
-      $('#'+column).prop('disabled',true);
-    }
   }
 }
 
-//this dictates what functions are called and when
+//this is the initial function called by clicking a column
 var brain = {
-  colorSpace: function (xaxis, yaxis) {
-    var selectedSpace = $('[x='+xaxis+'][y='+yaxis+']')
-    selectedSpace.css('background-color', game.currentColor);
+  droptoken: function () {
+    //defines where you clicked
+    xaxis = this.id;
+    yaxis = game.yPositionAvailable[this.id];
+    //color space on board
+    UI.colorSpace(xaxis, yaxis);
+    //store the game data resulting in the move
     game.dataStore[xaxis][yaxis] = game.currentColor;
+    game.movesMade++;
+    game.yPositionAvailable[xaxis]++;
+    //trigger methods that analyze the new game data
+    UI.checkDisable(xaxis);
+    logic.checkStaleMate();
     logic.checkMatches(xaxis, yaxis);
     game.changeColor()
-  },
-  droptoken: function () {
-  logic.columnHeight(this.id);
-  game.movesMade++;
-  logic.checkStaleMate();
-}
+  }
 }
 
 var buttonrow = $('#buttonrow')
