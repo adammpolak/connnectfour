@@ -71,3 +71,33 @@ h2 {
     height: 71px;
   	border: solid 3px #0066ff;
 }
+
+@media (max-width: 650px) {
+  #board {
+  	width: 360px;
+  	height: 288px;
+  }
+  .space {
+  	width: 42px;
+  	height: 42px;
+  }
+  #buttonrow {
+    width: 360px;
+  }
+  .button {
+  	width: 40px;
+  	height: 28px;
+    font-size: 10px;
+  }
+  h1 {
+  	font-size: 48px;
+    text-align: center;
+    margin-top: 10px;
+  }
+  section {
+    font-size: 24px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 34px
+  }
+}
