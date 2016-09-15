@@ -146,7 +146,7 @@ var UI = {
     $('#red').hide();
     $('#black').hide();
     $('#center').css('margin', 'auto')
-    $('#center').css('margin-bottom', '46px')
+    $('#center').css('margin-bottom', '93px')
     $('#buttonrow').hide();
   },
   winner: function () {
@@ -154,7 +154,7 @@ var UI = {
     $('#red').hide();
     $('#black').hide();
     $('#center').css('margin', 'auto')
-    $('#center').css('margin-bottom', '46px')
+    $('#center').css('margin-bottom', '93px')
     $('#buttonrow').hide();
   },
   setup: function() {
@@ -166,9 +166,10 @@ var UI = {
         space.attr('x', x);
         board.append(space);
       };
-      var button = $('<button>Drop Here</button>');
+      var button = $('<button>');
       button.attr('class', 'button');
       button.attr('id', x);
+      button.hover(UI.displayToken, UI.hideToken);
       button.on('click', brain.droptoken);
       buttonrow.append(button);
     }
@@ -178,12 +179,21 @@ var UI = {
   },
   checkDisable: function(column) {
     if (game.yPositionAvailable[column] > 5) {
-      $('#'+column).prop('disabled',true);
+      $('#'+column).css('background-color', 'white')
+      $('#'+column).off('click');
+      $('#'+column).off('hover');
+
     }
   },
   colorSpace: function (xaxis, yaxis) {
     var selectedSpace = $('[x='+xaxis+'][y='+yaxis+']')
     selectedSpace.css('background-color', game.currentColor);
+  },
+  displayToken: function() {
+    $(this).addClass(game.currentColor);
+  },
+  hideToken: function() {
+    $(this).removeClass(this.className.split(' ').pop());
   }
 }
 
@@ -303,12 +313,18 @@ var brain = {
     game.movesMade++;
     game.yPositionAvailable[xaxis]++;
     //trigger methods that analyze the new game data
-    UI.checkDisable(xaxis);
     logic.checkStaleMate();
     logic.checkMatches(xaxis, yaxis);
-    game.changeColor()
+    //this changes the color currently to be played
+    game.changeColor();
+    //this changes the current token color immediatly after click
+    $(this).removeClass(this.className.split(' ').pop());
+    $(this).addClass(game.currentColor);
+    //this does a check if the current column is full
+    UI.checkDisable(xaxis);
   }
 }
+
 
 var buttonrow = $('#buttonrow')
 var board = $('#board')
